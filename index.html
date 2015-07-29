@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="style/reset.min.css">
+	<link rel="stylesheet" href="style/common.css">
+</head>
+<body>
+    <div class="carosel_area">
+        <div class="J_carosel carosel">
+            <div class="container">
+                <div class="item active" style="background-color:blue;"></div>
+                <div class="item" style="background-color:pink;"></div>
+                <div class="item" style="background-color:yellowgreen;"></div>
+                <div class="item" style="background-color:peachpuff;"></div>
+            </div>
+            <a href="###" class="control left_control J_left_ctl">&lt;</a>
+            <a href="###" class="control right_control J_right_ctl">&gt;</a>
+            <div class="slider_ctrl_area">
+                <span class="slider_ctrl slider_ctrl_current"></span>
+                <span class="slider_ctrl"></span>
+                <span class="slider_ctrl"></span>
+                <span class="slider_ctrl"></span>
+            </div>
+        </div>
+    </div>
+    <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+    <script>
+        //jQuery版
+        //todo 需要引入throttle 避免点击过快 避免滑过carosel区域太快 暂未考虑
+        $(function(){
+            var num = 0;
+            var now_index = 0;
+            var len = $(".J_carosel .item").length;
+
+            $(document).on("click",".J_right_ctl",function(){
+                $(".J_carosel .item").not(".active").css({left:"500px"});
+                num++;
+                now_index = num%len;
+                $(".J_carosel .item").eq(now_index).addClass("active");
+                $(".J_carosel .item").eq(now_index-1).animate({left:"-500px"},function(){
+                    $(".J_carosel .item").eq(now_index-1).css({left:"500px"});
+                    $(".J_carosel .item").eq(now_index-1).removeClass("active");
+                });
+                $(".J_carosel .item").eq(now_index).animate({left:"0"},function(){
+                    $(".J_carosel .slider_ctrl").removeClass("slider_ctrl_current");
+                    $(".J_carosel .slider_ctrl").eq(now_index).addClass("slider_ctrl_current");
+                });
+            });
+            $(document).on("click",".J_left_ctl",function(){
+//                console.log(123);
+                $(".J_carosel .item").not(".active").css({left:"-500px"});
+                num--;
+                num = (num>0)?num:(len+num);
+                now_index = num%len;
+//                console.log(now_index);
+                // $(".J_carosel .item").removeClass("active");
+                $(".J_carosel .item").eq(now_index).addClass("active");
+                $(".J_carosel .item").eq(now_index+1).animate({left:"500px"},function(){
+                    $(".J_carosel .item").eq(now_index+1).css({left:"-500px"});
+                    $(".J_carosel .item").eq(now_index+1).removeClass("active");
+                });
+                $(".J_carosel .item").eq(now_index).animate({left:"0"},function(){
+                    $(".J_carosel .slider_ctrl").removeClass("slider_ctrl_current");
+                    $(".J_carosel .slider_ctrl").eq(now_index).addClass("slider_ctrl_current");
+                });
+            });
+
+            //下面的箭头点击切换到对应的item
+            var $Arr_slider_ctrl = $(".J_carosel .slider_ctrl");
+            for(var i=0;i<$Arr_slider_ctrl.length;i++){
+                $Arr_slider_ctrl[i].index = i;
+            }
+            $(document).on("click",".J_carosel .slider_ctrl",function(){
+//                console.log(111)
+                console.log(this.index,now_index);
+                var index = this.index;
+                //如果index大于now_index,则往右滑，否则，往左滑
+//                console.log(index,now_index);
+                var temp_index = now_index;
+                now_index = index;
+                if(now_index > temp_index){
+                    $(".J_carosel .item").not(".active").css({left:"500px"});
+                    $(".J_carosel .item").eq(now_index).addClass("active");
+                    $(".J_carosel .item").eq(temp_index).animate({left:"-500px"},function(){
+                        $(".J_carosel .item").eq(temp_index).css({left:"500px"});
+                        $(".J_carosel .item").eq(temp_index).removeClass("active");
+                    });
+                    $(".J_carosel .item").eq(now_index).animate({left:"0"},function(){
+                        $(".J_carosel .slider_ctrl").removeClass("slider_ctrl_current");
+                        $(".J_carosel .slider_ctrl").eq(now_index).addClass("slider_ctrl_current");
+                    });
+                }else if(now_index < temp_index){
+                    $(".J_carosel .item").not(".active").css({left:"-500px"});
+                    $(".J_carosel .item").eq(now_index).addClass("active");
+                    $(".J_carosel .item").eq(temp_index).animate({left:"500px"},function(){
+                        $(".J_carosel .item").eq(temp_index).css({left:"-500px"});
+                        $(".J_carosel .item").eq(temp_index).removeClass("active");
+                    });
+                    $(".J_carosel .item").eq(now_index).animate({left:"0"},function(){
+                        $(".J_carosel .slider_ctrl").removeClass("slider_ctrl_current");
+                        $(".J_carosel .slider_ctrl").eq(now_index).addClass("slider_ctrl_current");
+                    });
+                }else{
+                    return false;//now_index == index;
+                }
+            });
+
+            //定时 当鼠标hover上去的时候，立刻停止计时，移开的时候，开始计时
+            var my_timer;
+            var my_fn = function(){
+                my_timer = setTimeout(function(){
+                    $(".J_carosel .item").not(".active").css({left:"500px"});
+                    num++;
+                    now_index = num%len;
+                    $(".J_carosel .item").eq(now_index).addClass("active");
+                    $(".J_carosel .item").eq(now_index-1).animate({left:"-500px"},function(){
+                        $(".J_carosel .item").eq(now_index-1).css({left:"500px"});
+                        $(".J_carosel .item").eq(now_index-1).removeClass("active");
+                    });
+                    $(".J_carosel .item").eq(now_index).animate({left:"0"},function(){
+                        $(".J_carosel .slider_ctrl").removeClass("slider_ctrl_current");
+                        $(".J_carosel .slider_ctrl").eq(now_index).addClass("slider_ctrl_current");
+                        my_fn();
+                    });
+                },10000);
+            };
+            my_fn();
+            $(document).on("mouseenter",".J_carosel",function(){
+                clearTimeout(my_timer);
+                $(".J_carosel .slider_ctrl").removeClass("slider_ctrl_current");
+//                console.log(222)
+            });
+            $(document).on("mouseleave",".J_carosel",function(){
+                $(".J_carosel .slider_ctrl").eq(now_index).addClass("slider_ctrl_current");
+                my_fn();
+//                console.log(1111)
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+@charset "utf-8";
+
+//共用 start
+.pr{
+  position:relative;
+}
+.pa{
+  position:absolute;
+}
+.oh{
+  overflow: hidden;
+}
+//共用 end
+
+//轮播图 start
+//轮播图配置 start
+@carosel_width:500px;//轮播图宽度
+@carosel_height:309px;//轮播图高度
+@control_width:40px;//左右箭头宽度
+@control_height:40px;//左右箭头高度
+@slider_ctrl_width:24px;//滑条高度
+@slider_ctrl_height:20px;//滑条高度
+@ctrl_font_size:30px;//左右箭头大小
+//轮播图配置 end
+.carosel_area{
+  margin:100px auto;
+}
+.carosel{
+  margin:0 auto;
+  width:@carosel_width;
+  height:@carosel_height;
+  border:1px solid gray;
+  .pr;
+  .oh;
+}
+.carosel .item{
+  width:@carosel_width;
+  height:@carosel_height;
+  display: none;
+  .pa;
+  z-index: 1;
+  left:0;
+}
+.carosel .active{
+  display: block;
+}
+.carosel .control{
+  width:@control_width;
+  height:@control_height;
+  line-height: @control_height;
+  background-color: #222;
+  opacity: .5;
+  filter:alpha(opacity=50);
+  position: absolute;
+  top:40%;
+  z-index: 2;
+  color:#fff;
+  font-size: @ctrl_font_size;
+  text-align: center;
+  font-family: vardana;
+}
+.carosel .left_control{
+  left:10px;
+}
+.carosel .right_control{
+  right:10px;
+}
+.slider_ctrl_area{
+  width:100%;
+  height:@slider_ctrl_height;
+  z-index: 2;
+  bottom:10px;
+  text-align: center;
+  .pa;
+}
+.slider_ctrl_area .slider_ctrl{
+  width:@slider_ctrl_width;
+  height: @slider_ctrl_height;
+  margin-right: 10px;
+  display: inline-block;
+  cursor:pointer;
+  background-image: url(../imgs/icon_v9.png);
+  background-position: -24px -782px;
+  background-repeat: no-repeat;
+}
+.slider_ctrl_area .slider_ctrl_current{
+  -moz-animation:a_slidercurrent 10s linear;
+  -webkit-animation:a_slidercurrent 10s linear;
+  -o-animation:a_slidercurrent 10s linear;
+  animation:a_slidercurrent 10s linear;
+}
+@-moz-keyframes a_slidercurrent{
+  from { background-position: -24px -762px; }
+  to { background-position: 0 -762px; }
+}
+@-webkit-keyframes a_slidercurrent{
+  from { background-position: -24px -762px; }
+  to { background-position: 0 -762px; }
+}
+@-o-keyframes a_slidercurrent{
+  from { background-position: -24px -762px; }
+  to { background-position: 0 -762px; }
+}
+@keyframes a_slidercurrent{
+  from { background-position: -24px -762px; }
+  to { background-position: 0 -762px; }
+}
+//轮播图 end

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #demo{
+            width:300px;
+            height:300px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+<div class="a b c" id="demo"></div>
+<script>
+    function removeClass(ele,newClassName){
+        var tempClassName = ele.className;
+        var arr = tempClassName.split(/\s+/);
+        var tempClassNameArr = [];
+        for(var i=0;i<arr.length;i++){
+            if(arr[i]==newClassName)continue;
+            tempClassNameArr.push(arr[i]);
+        }
+        ele.className = tempClassNameArr.join(" ");
+    }
+    removeClass(document.getElementById("demo"),"b");
+    
+    /*************************************************************/
+    function addClass(ele,newClassName){
+        var tempClassName = ele.className;
+        ele.className = tempClassName + ' '+newClassName;
+        return;
+    }
+    addClass(document.getElementById("demo"),"e");
+
+    /*************************************************************/
+    
+    function addEvent(ele,eventType,handler){
+        if(ele.addEventListener){
+            ele.addEventListener(eventType,handler,false);
+        }else if(ele.attachEvent){
+            return ele.attachEvent('on'+eventTYpe,handler)
+        }else{
+            ele['on'+eventType] = handler;
+        }
+    }
+    
+    addEvent(document.getElementById("demo"),"click",function(){
+        alert(1);
+    });
+    /*************************************************************/
+    function getAttribute(ele,str){
+        var val;
+        if(ele.currentStyle){
+            val = ele.currentStyle[str];
+        }else if(window.getComputedStyle){
+            val = window.getComputedStyle(ele,null)[str];
+        }
+        return val;
+    }
+    console.log(getAttribute(document.getElementById("demo"),"width"));
+    console.log(getAttribute(document.getElementById("demo"),"backgroundColor"));
+
+    //只考虑width,height,left,right的改变
+    function animate(ele,time,totalTime,EndAttrObj){
+        var startAttrObj = {};//记录初始化的时候元素的一些属性
+        var intervalAttrObj = {};//记录每个属性每部要改变的值
+        var my_interval = parseInt(totalTime/time);
+        for(var i in EndAttrObj){
+            startAttrObj[i] = getAttribute(ele,i);
+            intervalAttrObj[i] = (parseInt(EndAttrObj[i]) - parseInt(startAttrObj[i]))/my_interval;
+        }
+//        console.log(startAttrObj);
+
+        var num = 0;
+        var handler = function(){
+            for(var i in EndAttrObj){
+                ele.style[i] = parseInt(getAttribute(ele,i)) + intervalAttrObj[i] + 'px';
+            }
+        };
+        var fn = function(){
+            num++;
+            if(num>my_interval)return;
+            var my_timer = setTimeout(function(){
+                handler();
+                fn();
+            },time);
+        };
+        fn();
+    }
+
+    animate(document.getElementById("demo"),1000,3000,{width:'400px',height:'400px'});
+</script>
+</body>
+</html>

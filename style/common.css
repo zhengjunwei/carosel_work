@@ -1,0 +1,109 @@
+@charset "utf-8";
+.pr {
+  position: relative;
+}
+.pa {
+  position: absolute;
+}
+.oh {
+  overflow: hidden;
+}
+.carosel_area {
+  margin: 100px auto;
+}
+.carosel {
+  margin: 0 auto;
+  width: 500px;
+  height: 309px;
+  border: 1px solid gray;
+  position: relative;
+  overflow: hidden;
+}
+.carosel .item {
+  width: 500px;
+  height: 309px;
+  display: none;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+}
+.carosel .active {
+  display: block;
+}
+.carosel .control {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  background-color: #222;
+  opacity: .5;
+  filter: alpha(opacity=50);
+  position: absolute;
+  top: 40%;
+  z-index: 2;
+  color: #fff;
+  font-size: 30px;
+  text-align: center;
+  font-family: vardana;
+}
+.carosel .left_control {
+  left: 10px;
+}
+.carosel .right_control {
+  right: 10px;
+}
+.slider_ctrl_area {
+  width: 100%;
+  height: 20px;
+  z-index: 2;
+  bottom: 10px;
+  text-align: center;
+  position: absolute;
+}
+.slider_ctrl_area .slider_ctrl {
+  width: 24px;
+  height: 20px;
+  margin-right: 10px;
+  display: inline-block;
+  cursor: pointer;
+  background-image: url(../imgs/icon_v9.png);
+  background-position: -24px -782px;
+  background-repeat: no-repeat;
+}
+.slider_ctrl_area .slider_ctrl_current {
+  -moz-animation: a_slidercurrent 10s linear;
+  -webkit-animation: a_slidercurrent 10s linear;
+  -o-animation: a_slidercurrent 10s linear;
+  animation: a_slidercurrent 10s linear;
+}
+@-moz-keyframes a_slidercurrent {
+  from {
+    background-position: -24px -762px;
+  }
+  to {
+    background-position: 0 -762px;
+  }
+}
+@-webkit-keyframes a_slidercurrent {
+  from {
+    background-position: -24px -762px;
+  }
+  to {
+    background-position: 0 -762px;
+  }
+}
+@-o-keyframes a_slidercurrent {
+  from {
+    background-position: -24px -762px;
+  }
+  to {
+    background-position: 0 -762px;
+  }
+}
+@keyframes a_slidercurrent {
+  from {
+    background-position: -24px -762px;
+  }
+  to {
+    background-position: 0 -762px;
+  }
+}
